@@ -26,7 +26,7 @@ public class Revenue extends BaseEntity {
     private BigDecimal revenueSum;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
+    @JoinColumn(name="location")
     private Location location;
 
 }

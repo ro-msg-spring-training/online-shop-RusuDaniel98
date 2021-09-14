@@ -30,15 +30,25 @@ public class Product extends BaseEntity {
     @Column(name="weight")
     private Double weight;
 
+    @ManyToOne
+    @JoinColumn(name="category")
+    private ProductCategory productCategory;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name="supplier")
+    private Supplier supplier;
+
     @Column(name="image_url")
     private String imageUrl;
 
-    @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
-    private ProductCategory productCategory;
-
-    @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
-    private Supplier supplier;
-
+    public Product(String name, String description, BigDecimal price, Double weight, ProductCategory productCategory,
+                   Supplier supplier, String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.weight = weight;
+        this.productCategory = productCategory;
+        this.supplier = supplier;
+        this.imageUrl = imageUrl;
+    }
 }

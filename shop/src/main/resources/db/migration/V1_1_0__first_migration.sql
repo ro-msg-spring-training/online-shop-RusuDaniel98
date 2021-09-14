@@ -69,3 +69,5 @@ CREATE TABLE IF NOT EXISTS order_detail (
     product int NOT NULL REFERENCES product (id),
     quantity int
 );
+
+

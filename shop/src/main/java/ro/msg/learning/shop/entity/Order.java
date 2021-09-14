@@ -34,11 +34,29 @@ public class Order extends BaseEntity {
     private String addressStreetAddress;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
+    @JoinColumn(name="shipped_from")
     private Location shippedFrom;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
+    @JoinColumn(name="customer")
     private Customer customer;
+
+    public Order(LocalDateTime createdAt,
+                 String addressCountry,
+                 String addressCity,
+                 String addressCounty,
+                 String addressStreetAddress,
+                 Location shippedFrom,
+                 Customer customer) {
+
+        this.createdAt = createdAt;
+        this.addressCountry = addressCountry;
+        this.addressCity = addressCity;
+        this.addressCounty = addressCounty;
+        this.addressStreetAddress = addressStreetAddress;
+        this.shippedFrom = shippedFrom;
+        this.customer = customer;
+    }
+
 
 }

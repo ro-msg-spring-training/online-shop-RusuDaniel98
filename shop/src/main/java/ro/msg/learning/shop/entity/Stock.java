@@ -21,11 +21,16 @@ public class Stock extends BaseEntity {
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
+    @JoinColumn(name="product")
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
+    @JoinColumn(name="location")
     private Location location;
 
+    public Stock(int quantity, Product product, Location location) {
+        this.quantity = quantity;
+        this.product = product;
+        this.location = location;
+    }
 }

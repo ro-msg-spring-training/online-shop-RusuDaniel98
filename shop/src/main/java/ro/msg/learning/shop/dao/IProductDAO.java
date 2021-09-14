@@ -7,4 +7,6 @@ public interface IProductDAO extends JpaRepository<Product, Integer> {
 
     Product findById(int id);
 
+    Product findByName(String name);
+
 }

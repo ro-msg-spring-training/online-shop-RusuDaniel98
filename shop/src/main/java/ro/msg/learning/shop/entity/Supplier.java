@@ -20,4 +20,7 @@ public class Supplier extends BaseEntity {
     @Column(name="name")
     private String name;
 
+    public Supplier(String name) {
+        this.name = name;
+    }
 }

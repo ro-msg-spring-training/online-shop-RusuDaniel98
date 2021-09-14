@@ -7,7 +7,7 @@ import lombok.NonNull;
 import javax.persistence.*;
 
 @Entity
-@Table(name="stock")
+@Table(name="order_detail")
 @Data
 @NoArgsConstructor
 public class OrderDetail extends BaseEntity {
@@ -21,11 +21,16 @@ public class OrderDetail extends BaseEntity {
     private int quantity;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
+    @JoinColumn(name="product")
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name="id", nullable=false, insertable = false, updatable = false)
+    @JoinColumn(name="customer_order")
     private Order order;
 
+    public OrderDetail(int quantity, Product product, Order order) {
+        this.quantity = quantity;
+        this.product = product;
+        this.order = order;
+    }
 }

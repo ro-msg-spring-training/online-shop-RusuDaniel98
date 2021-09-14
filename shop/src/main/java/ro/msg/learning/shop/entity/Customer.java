@@ -28,4 +28,11 @@ public class Customer extends BaseEntity {
     @Column(name="email_address")
     private String emailAddress;
 
+    public Customer(String firstName, String lastName, String username, String password, String emailAddress) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.emailAddress = emailAddress;
+    }
 }

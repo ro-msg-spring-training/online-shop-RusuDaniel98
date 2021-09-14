@@ -23,4 +23,8 @@ public class ProductCategory extends BaseEntity {
     @Column(name="description")
     private String description;
 
+    public ProductCategory(String categoryName, String categoryDescription) {
+        this.name = categoryName;
+        this.description = categoryDescription;
+    }
 }
