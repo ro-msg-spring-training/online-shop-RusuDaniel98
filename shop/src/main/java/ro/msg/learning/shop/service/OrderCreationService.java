@@ -9,6 +9,7 @@ import ro.msg.learning.shop.configuration.OrderCreationConfiguration;
 import ro.msg.learning.shop.dao.*;
 import ro.msg.learning.shop.entity.*;
 import ro.msg.learning.shop.strategy.OrderStrategy;
+import ro.msg.learning.shop.strategy.OrderStrategySingleLocation;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @Log
 public class OrderCreationService {
 
-    private final String strategyName = "single_location";
+    private String strategyName = "single_location";
 
     @Autowired
     private IStockDAO stockDAO;
@@ -30,6 +31,23 @@ public class OrderCreationService {
     @Autowired
     private ICustomerDAO customerDAO;
 
+    public String getStrategyName() {
+        return strategyName;
+    }
+
+    public void setStrategyName(String strategyName) {
+        this.strategyName = strategyName;
+    }
+
+    public OrderStrategy findStrategy() {
+        ApplicationContext context = new AnnotationConfigApplicationContext(OrderCreationConfiguration.class);
+        if (strategyName.equals("single_location")) {
+            return (OrderStrategy) context.getBean("strategySingleLocation");
+        } else {
+            return (OrderStrategy) context.getBean("strategyMostAbundant");
+        }
+    }
+
     public Order createOrder(
             LocalDateTime timestamp,
             String addressCountry,
@@ -38,22 +56,17 @@ public class OrderCreationService {
             String addressStreetAddress,
             List<OrderDetail> orderDetails) throws Exception {
 
-        ApplicationContext context = new AnnotationConfigApplicationContext(OrderCreationConfiguration.class);
-
         Order order = new Order();
-        OrderStrategy strategy;
+        OrderStrategy strategy = findStrategy();
+
         List<Stock> stocks = stockDAO.findAll();
 
-        if (strategyName.equals("single_location")) {
-            strategy = (OrderStrategy) context.getBean("strategySingleLocation");
+        if (strategy.getClass().getName().equals("ro.msg.learning.shop.strategy.OrderStrategySingleLocation")) {
             List<Stock> orderStocks = null;
             try {
                 orderStocks = strategy.findShippingLocation(orderDetails, stocks);
-                // decrease the quantity value for each stock
-
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
             Location shippingLocation;
             if (orderStocks == null) {
@@ -85,9 +98,11 @@ public class OrderCreationService {
             }
 
         } else {
-            strategy = (OrderStrategy) context.getBean("strategyMostAbundant");
+            // NOTE: if an Order could have multiple Shipping Locations, the database relationships may need to change??
 
-            // NOTE: if a Order could have multiple Shipping Locations, the database relationships may need to change??
+            // TODO implement the search for most abundant locations: possible solution written below
+            // Idea: alter the database and the entity Order class to hold a List<Location>
+            // and only store one location if the strategy is "single location".
         }
 
         return order;

@@ -23,7 +23,7 @@ public class OrderCreationController {
     OrderCreationService orderCreationService;
 
     @PostMapping("/order")
-    private Order createOrder(@RequestBody OrderPlacementDTO orderPlacementDTO) {
+    private String createOrder(@RequestBody OrderPlacementDTO orderPlacementDTO) {
 
         Order order;
         try {
@@ -37,10 +37,15 @@ public class OrderCreationController {
             );
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "Order failed.";
         }
 
-        return order;
+        if (order.getId() > 0) {
+            return "Order created.";
+        } else {
+            return "Order failed.";
+        }
+
     }
 
 }

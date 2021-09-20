@@ -2,6 +2,7 @@ package ro.msg.learning.shop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import ro.msg.learning.shop.dao.*;
 import ro.msg.learning.shop.entity.*;
@@ -9,6 +10,7 @@ import ro.msg.learning.shop.entity.*;
 import java.math.BigDecimal;
 
 @Service
+@Profile("test")
 public class DummyDatabaseRecordsService {
 
     @Autowired
@@ -30,7 +32,7 @@ public class DummyDatabaseRecordsService {
     @Autowired
     private IOrderDAO orderDAO;
 
-    // adds dummy values for tables "product", "product_category" and "supplier"
+    // adds dummy records in the database
     public void addProducts() {
         ProductCategory productCategory = new ProductCategory(
                 "peripheral",
@@ -131,6 +133,19 @@ public class DummyDatabaseRecordsService {
                 "johndoe@gmail.com"
         );
         customerDAO.save(customer);
+    }
+
+    // deletes all the records in the database.
+    public void deleteAllRecords() {
+        stockDAO.deleteAll();
+        productDAO.deleteAll();
+        productCategoryDAO.deleteAll();
+        supplierDAO.deleteAll();
+        customerDAO.deleteAll();
+        revenueDAO.deleteAll();
+        orderDetailDAO.deleteAll();
+        locationDAO.deleteAll();
+        orderDAO.deleteAll();
     }
 
 

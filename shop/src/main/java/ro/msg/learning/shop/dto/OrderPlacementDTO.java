@@ -23,4 +23,17 @@ public class OrderPlacementDTO {
 
     private List<OrderDetail> orderDetails;
 
+    public OrderPlacementDTO(LocalDateTime timestamp,
+                             String addressCountry,
+                             String addressCity,
+                             String addressCounty,
+                             String addressStreetAddress,
+                             List<OrderDetail> orderDetails) {
+        this.timestamp = timestamp;
+        this.addressCountry = addressCountry;
+        this.addressCity = addressCity;
+        this.addressCounty = addressCounty;
+        this.addressStreetAddress = addressStreetAddress;
+        this.orderDetails = orderDetails;
+    }
 }
